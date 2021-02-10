@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    Delete Task
+{% endblock title %}
+
+{% block body %}
+    <div class="container-fluid px-0">
+    <div class="jumbotron">
+        <div class="container">
+            <h3>Are you sure you want to delete task "{{task.title}}"?</h3>
+            <h5>{{task.description}}</h5>
+            <form method="POST" action="/delete/{{task.id}}">
+                {% csrf_token %}
+                <button type="submit" class="btn btn-danger ml-4 mt-4">Delete</button>
+                <a href="/edit/{{task.id}}" class="btn ml-2 btn-info mt-4">Edit Instead</a>
+                <a href="/" class="btn btn-primary ml-2 mt-4">Cancel</a>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock body %}

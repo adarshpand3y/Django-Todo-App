@@ -1,0 +1,69 @@
+{% extends 'base.html' %}
+
+{% block title %}
+Home
+{% endblock title %}
+{% block body %}
+<div class="container-fluid px-0">
+    <div class="jumbotron">
+        <div class="container">
+            <h1 class="display-4">Manage your day!</h1>
+            <p class="lead">Keep track of what you do v/s what you want to do.</p>
+            <hr class="my-4">
+            <h3>Fill this form to create a new task.</h3>
+            <form method="POST" action="/">
+                {% csrf_token %}
+                <div class="form-group">
+                    <label for="title">Enter Title</label>
+                    <input type="text" name="title" class="form-control" id="title" placeholder="Enter Title"
+                        aria-describedby="emailHelp">
+                </div>
+                <div class="form-group">
+                    <label for="description">Describe your task within 200 characters</label>
+                    <textarea class="form-control" name="description" id="description" rows="3"
+                        placeholder="Describe your task within 200 characters"></textarea>
+                </div>
+                <div class="form-group form-check">
+                    <input type="checkbox" class="form-check-input" name="isComplete" id="is-complete">
+                    <label class="form-check-label" for="is-complete">Check this box if you have completed this
+                        work.</label>
+                </div>
+                <button type="submit" class="btn btn-primary">Submit!</button>
+            </form>
+        </div>
+    </div>
+</div>
+
+<div class="container">
+    <h1>Here are all the tasks that you have created:-</h1>
+    <table class="table">
+        <thead>
+            <tr>
+                <th scope="col">Title</th>
+                <th scope="col">Description</th>
+                <th scope="col">Edit</th>
+                <th scope="col">Delete</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for i in tasks %}
+            <tr>
+                {% if i.is_done %}
+                <td><strike>{{ i.title }}</strike></td>
+                <td><strike>{{ i.description }}</strike></td>
+                {% else %}
+                <td>{{ i.title }}</td>
+                <td>{{ i.description }}</td>
+                {% endif %}
+                
+                <td><a href="{% url 'edit' i.id %}" type="button" class="btn btn-sm btn-primary">Edit</a></td>
+                <td><a href="{% url 'delete' i.id %}" type="button" class="btn btn-sm btn-danger">Delete</a></td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+<hr>
+<br>
+<br>
+{% endblock body %}
